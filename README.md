@@ -59,4 +59,4 @@ npm i login-with-up --save
 ```
 
 
-![预览](./view.png)
+![预览](https://raw.githubusercontent.com/micro-plat/login-with-up/dev/view.png)
