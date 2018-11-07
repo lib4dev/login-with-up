@@ -15,11 +15,13 @@ npm i login-with-up --save
 <template>
   <div id="app">
     <login-with-up
-      :host="host"
-      :sysname="sys_name"
       :copyright="copyright"
-      :ident="ident"
-      v-on:loginCall="call"></login-with-up>
+      :systemName="systemName"
+      @loginCall="call"
+      ref="loginItem"
+    >
+
+    </login-with-up>
   </div>
 </template>
 
@@ -29,10 +31,8 @@ npm i login-with-up --save
     name: 'app',
     data () {
       return {
-        host:"http://api.test.cn/login",
-        sys_name: "用户权限系统",
-        copyright:"版权信息",
-        ident:"sso"   //系统英文名称
+        systemName: "电子优惠券系统",
+        copyright:"四川千行你我科技有限公司Copyright© 2018 版权所有",
       }
     },
     components:{ //注册插件
@@ -40,22 +40,14 @@ npm i login-with-up --save
     },
     methods:{
       call(e){
-        console.log(e)
+        //在这里获取数据进行登录
+        console.log(e);
+        //如果登陆失败，发送错误信息
+        this.$refs.loginItem.showMsg("登录中。。。。");
       }
     }
   }
 </script>
-
-<style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
-</style>
 ```
 
 

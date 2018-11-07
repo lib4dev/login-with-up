@@ -5,7 +5,7 @@
       <canvas></canvas>
       <canvas></canvas>
     </div>
-    <h1 class="visible-lg-block visible-md-block">{{sysname}}</h1>
+    <h1 class="visible-lg-block visible-md-block">{{systemName}}</h1>
     <div class="sub-main-w3">
       <form action="#" @submit.prevent="loginNow">
         <h2>用户登录
@@ -16,18 +16,28 @@
             <i class="iconfont icon-yonghu"></i>
             用户名
           </label>
-          <input placeholder="请输入用户名" maxlength="32" v-model="login.username" type="text" required
-                 oninvalid="setCustomValidity('请输入用户名')" oninput="setCustomValidity('')">
+          <input placeholder="请输入用户名" maxlength="32" v-model="login.username" type="text">
         </div>
         <div class="form-style-agile">
           <label>
             <i class="iconfont icon-xiugaimima"></i>
             密码
           </label>
-          <input placeholder="请输入密码" maxlength="32" v-model="login.password" type="password" required
-                 oninvalid="setCustomValidity('请输入密码')" oninput="setCustomValidity('')">
+          <input placeholder="请输入密码" maxlength="32" v-model="login.password" type="password">
         </div>
         <!-- checkbox -->
+        <div class="wthree-text" >
+          <ul>
+            <li>
+              <label v-if="message">
+              <span class="">
+                <i class="iconfont icon-tishi" style="font-size: 14px;"></i>
+              {{message}}
+              </span>
+              </label>
+            </li>
+          </ul>
+        </div>
         <input type="submit" class="submit" value="立即登录">
       </form>
     </div>
@@ -40,51 +50,41 @@
 
 <script>
   import {drawDynamicsBG} from "../../assets/js/bg";
-  import axios from 'axios'
-
   export default {
     name: "loginWithUp",
     props: {
-      host: String,         //登录地址
-      sysname: String,      //系统名称
-      copyright: String,    //版权信息
-      ident: String         //系统英文名称
+      systemName:  { //系统名称
+        type:String,
+        required:true
+      },
+      copyright:  {//版权信息
+        type:String,
+        required:true
+      }
     },
     data() {
       return {
         login: {
           username: "",
-          password: "",
-          ident: this.ident
+          password: ""
         },
+        message:null,
       };
     },
     mounted() {
-      sessionStorage.removeItem("__jwt__");
-      sessionStorage.removeItem("code");
       drawDynamicsBG("bg");
     },
     methods: {
       loginNow() {
-        self = this;
-        axios.post(this.host, this.login)
-          .then(function (response) {
+        if (!this.login.username || !this.login.password){
+          this.message = "请填写用户名和密码";
+          return
+        }
 
-            sessionStorage.setItem("username", self.login.username);
-            if (!response.headers.__jwt__) {
-              self.$emit('loginCall', false);
-            }
-            sessionStorage.setItem("__jwt__", response.headers.__jwt__);
-            if (!response.data.code) {
-              self.$emit('loginCall', false);
-            }
-            sessionStorage.setItem("code", response.data.code);
-
-            self.$emit('loginCall', true);
-          })
-          .catch(function (error) {
-            self.$emit('loginCall', false);
-          });
+        this.$emit('loginCall', this.login);
+      },
+      showMsg(e){
+          this.message = e
       }
     }
   };
@@ -92,32 +92,34 @@
 
 <style scoped>
 
-  @font-face {
-    font-family: "iconfont";
-    src: url('//at.alicdn.com/t/font_889924_0j59ab18fkol.eot?t=1540460691538'); /* IE9*/
-    src: url('//at.alicdn.com/t/font_889924_0j59ab18fkol.eot?t=1540460691538#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAVcAAsAAAAACAgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8qUirY21hcAAAAYAAAABfAAABnLRmHZdnbHlmAAAB4AAAAWkAAAG8CygXK2hlYWQAAANMAAAALwAAADYTDqchaGhlYQAAA3wAAAAcAAAAJAfeA4VobXR4AAADmAAAAA4AAAAQEAAAAGxvY2EAAAOoAAAACgAAAAoBKgCWbWF4cAAAA7QAAAAeAAAAIAESADxuYW1lAAAD1AAAAUUAAAJtPlT+fXBvc3QAAAUcAAAAPgAAAE+eW8MOeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGByeGT/bydzwv4EhhrmBoQEozAiSAwDvDwzPeJztkLENgDAMBM9JQAgxCh0IKetQsSILZY3gfCgYgrfOsl+WiwcGIDqrk8AujKbTXZMfmeUnDt8nrwBlK7nctX4nyXQx6WtoH2zk16K+v1tsqXU0545yvTvYA225Fb4AeJxNkN9KAlEQxuc7YyubsiWrlhcVuqbQkp4t2/WiP3QRCEFRoBd50fYWirkhQUFP0AOYFz1DRQ8SPURgdKN2NoPiHL5vhvlgfgwJoskHB2zQCpWJkLJyUQNL8Nz0HLRcGYWK565gD1bB9VzPzBqIppaxkN3FDioFDt5P7CWzG9VnnniWn4SYiV4C4Mz20fXp6EGPATFdNPV4nI2WnavNNxyOa8NIZMiaes7enH57cIzRvYrdTdPKiCKK65lveJ/ilKE1shWbWqu2l1Dchef8b3hTdSkDRUsrFLfCKT4vekL0LvxQ/f91/aU7YB50f433OTj3A+bAPw/1rx4Nud8x19NCJMtmp89E6k9euaGYFimrmAjWlgIIL2IpSUzP4iVKQAkVdyOd1MxsiKMGTLZoNZstYeclIPOCfnz8lpeyJqU//sJhtXoIka6ftYVon9UhV8eNaRiPq3Lcg6w5Tk3iqq5yKv0NQpNWNwAAAHicY2BkYGAA4g8qz9/H89t8ZeBmYQCB6983TkbQ//eyMDA7ArkcDEwgUQB6vwzNAHicY2BkYGBu+N/AEMPCAAJAkpEBFbAAAEcKAm14nGNhYGBgQcIAALAAEQAAAAAAAABMAJYA3gAAeJxjYGRgYGBhMABiEGACYi4gZGD4D+YzAAANwgFPAAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICFkYmRmZGFkZWBPyszMa8kvzSxqCi/3NTQkK0yPy89o5SrIrM0PTEzNzM3kYEBAPk2DMMAAA==') format('woff'),
-    url('//at.alicdn.com/t/font_889924_0j59ab18fkol.ttf?t=1540460691538') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/ url('//at.alicdn.com/t/font_889924_0j59ab18fkol.svg?t=1540460691538#iconfont') format('svg'); /* iOS 4.1- */
+  @font-face {font-family: "iconfont";
+    src: url('//at.alicdn.com/t/font_889924_byduyptg1ca.eot?t=1541583410400'); /* IE9*/
+    src: url('//at.alicdn.com/t/font_889924_byduyptg1ca.eot?t=1541583410400#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('data:application/x-font-woff;charset=utf-8;base64,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') format('woff'),
+    url('//at.alicdn.com/t/font_889924_byduyptg1ca.ttf?t=1541583410400') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/font_889924_byduyptg1ca.svg?t=1541583410400#iconfont') format('svg'); /* iOS 4.1- */
   }
 
   .iconfont {
-    font-family: "iconfont" !important;
-    font-size: 20px;
-    font-style: normal;
+    font-family:"iconfont" !important;
+    font-size:16px;
+    font-style:normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .icon-jiantouarrow511:before {
-    content: "\e6b9";
-  }
+  .icon-tishi:before { content: "\e61f"; }
 
-  .icon-yonghu:before {
-    content: "\e639";
-  }
+  .icon-jiantouarrow511:before { content: "\e6b9"; }
 
-  .icon-xiugaimima:before {
-    content: "\e633";
-  }
+  .icon-yonghu:before { content: "\e639"; }
+
+  .icon-tishi2:before { content: "\e669"; }
+
+  .icon-xiugaimima:before { content: "\e633"; }
+
+
+
 
   .wthree-text li {
     height: 18px;
@@ -128,6 +130,7 @@
     color: #f7296f;
     font-weight: 600;
   }
+
 
   .scan_code {
     position: absolute;
@@ -410,11 +413,11 @@
   }
 
   .wthree-text ul li:nth-child(1) {
-    float: right;
+    float: left;
   }
 
   .wthree-text ul li:nth-child(2) {
-    float: left;
+    float: right;
   }
 
   .wthree-text ul li {
@@ -640,14 +643,6 @@
 
   .wthree-text {
     width: 100%;
-  }
-
-  .wthree-text ul li:nth-child(1) {
-    float: left;
-  }
-
-  .wthree-text ul li:nth-child(2) {
-    float: right;
   }
 
   .wthree-text ul li {
@@ -987,6 +982,8 @@
       padding: 25px 14px;
     }
   }
+
+
 
   /*--//responsive--*/
 </style>
