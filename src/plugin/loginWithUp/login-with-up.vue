@@ -16,14 +16,14 @@
             <i class="iconfont icon-yonghu"></i>
             用户名
           </label>
-          <input :placeholder="conf.loginNameType ? conf.loginNameType:'请输入用户名'" maxlength="32" v-model="login.username" type="text">
+          <input :placeholder="conf.loginNameType || '请输入用户名'" maxlength="32" v-model="login.username" type="text">
         </div>
         <div class="form-style-agile">
           <label>
             <i class="iconfont icon-xiugaimima"></i>
             密码
           </label>
-          <input :placeholder="conf.pwd? conf.pwd:'请输入密码'" maxlength="32" v-model="login.password" type="password">
+          <input :placeholder="conf.pwd || '请输入密码'" maxlength="32" v-model="login.password" type="password">
         </div>
         <!-- checkbox -->
         <div class="wthree-text" >

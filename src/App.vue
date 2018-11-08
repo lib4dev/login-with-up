@@ -20,7 +20,7 @@
       return {
         systemName: "电子优惠券系统",
         copyright:"四川千行你我科技有限公司Copyright© 2018 版权所有",
-        conf:{loginNameType:"请输入邮箱",pwd:"请输入密码"},
+        conf:{loginNameType:"请输入邮箱或用户名",pwd:"输入密码"},   //输入框提示信息配置
       }
     },
     components:{ //注册插件
