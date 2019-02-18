@@ -4,6 +4,7 @@
       :copyright="copyright"
       :systemName="systemName"
       :conf="conf"
+      :havecode="havecode"
       @loginCall="call"
       ref="loginItem"
     >
@@ -20,7 +21,8 @@
       return {
         systemName: "电子优惠券系统",
         copyright:"四川千行你我科技有限公司Copyright© 2018 版权所有",
-        conf:{loginNameType:"请输入邮箱或用户名",pwd:"输入密码"},   //输入框提示信息配置
+        conf:{loginNameType:"请输入邮箱或用户名",pwd:"输入密码", validateCode:"输入图形验证码"},   //输入框提示信息配置
+        havecode: true,
       }
     },
     components:{ //注册插件

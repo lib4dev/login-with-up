@@ -25,6 +25,17 @@
           </label>
           <input :placeholder="conf.pwd || '请输入密码'" maxlength="32" v-model="login.password" type="password">
         </div>
+
+        <div class="form-style-agile qx-code-ico" v-if="havecode">
+          <label>
+            <i class="iconfont icon-duanxinyanzhengma"></i>
+            图形验证码
+          </label>
+          <div class="from-style-code">
+            <input :placeholder="conf.validateCode || '请输入图形验证码'" maxlength="10" v-model="login.validatecode" type="text">
+            <input type="button" class="submit" @click="getValidateCode" value="获取图形验证码">
+          </div>
+        </div>
         <!-- checkbox -->
         <div class="wthree-text" >
           <ul>
@@ -63,13 +74,18 @@
       },
       conf:{
         type:Object,
+      },
+      havecode:{ //是否有图形验证码
+        type: Boolean,
+        required: false
       }
     },
     data() {
       return {
         login: {
           username: "",
-          password: ""
+          password: "",
+          validatecode: ""
         },
         message:null,
       };
@@ -84,7 +100,21 @@
           return
         }
 
+        if(this.havecode){
+          if(!this.login.validatecode){
+            this.message = "请填写图形验证码";
+            return
+          }
+        }
+
         this.$emit('loginCall', this.login);
+      },
+      getValidateCode(){
+        if(!this.login.username){
+          this.message = "请填写用户名";
+          return
+        }
+        this.$emit('getCodeCall', this.login);
       },
       showMsg(e){
           this.message = e
@@ -95,34 +125,50 @@
 
 <style scoped>
 
-  @font-face {font-family: "iconfont";
-    src: url('//at.alicdn.com/t/font_889924_byduyptg1ca.eot?t=1541583410400'); /* IE9*/
-    src: url('//at.alicdn.com/t/font_889924_byduyptg1ca.eot?t=1541583410400#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('data:application/x-font-woff;charset=utf-8;base64,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') format('woff'),
-    url('//at.alicdn.com/t/font_889924_byduyptg1ca.ttf?t=1541583410400') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('//at.alicdn.com/t/font_889924_byduyptg1ca.svg?t=1541583410400#iconfont') format('svg'); /* iOS 4.1- */
-  }
+@font-face {font-family: "iconfont";
+  src: url('//at.alicdn.com/t/font_889924_v8kg8xtspv.eot?t=1550461337444'); /* IE9 */
+  src: url('//at.alicdn.com/t/font_889924_v8kg8xtspv.eot?t=1550461337444#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAWcAAsAAAAACtQAAAVQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDXgqIEIZfATYCJAMcCxAABCAFhG0HdBtLCRGVpA+R/Uww8Wj0WGn+ZLvzVNBoJ3Ls8/ynnOn7M5IsywCwRAEGQwhAToreQhjo1LKbEp3VAAEEdNdbEyhR97+UKx37aIasaVlKQiQ0W2tWBmEiVMtPljX6zDULlB7gwbHUTw+gvA9+l47aRsNKoAFFJEaCTn9CE+U5gG3i/dbdQAAUhFEOatOuSwIyBOgHEQCaMHb0UMgJHYQKPEFWSgVnCqBlECGzT9kjAF96v0+/ohbJAIPIod+rx6i2I9AiF8id56qmYgBXoQ5nAcCeB3AA5QAEgD4qtKngQawcHIq8vYAEADNkMEhDjTeSq51rmBubO69pJNv1mQSz8Q8eIIEggkMAA0gCZEYK2ycuAbmAxYvkEWhAkNeGBiLkDaEBh3wsNBAgP48aMACAzjnDDMAJUAuADkNXlHvMHAwC+HOKRr01ajWZbOQ1Kj69XnaYQrH5r35IvP4x+fan9JvcnDM3Mjerr6vX+ptp+cqeG9Qv/hxFht3XMR9KtsmhV0B67WpnYlXWnVqT8ax1JfM8ypq3aeOPBppXrXJi9WqXZe1aosya+a9fJ1+9Srx5k3r7Nk2yZoCBqcamVynl1ZswVbzWfBq35kB2n3MMrVp/eLfHZaPVBwMbM+5pmavVl8HUS9krlNxzBWzWkz9boV44fd0GyqlLQbb5cl3L2asRvuXKiDNXlv2Cl/obaefb9rdfx+YTMyZSRj7ZuuuSl62/XGBKpk17rwb4hisTlD3+jZu6tg/rsv7h1Wq+kqWMp+xm2UbaUJj1rivb9m36dVJNFA9Xi8+HZn5cfGNRtWu9YW9gS/6ezN0tNZCrEDvLo1x9J0aj4juD7XBsUfQtppWLa/zd+a8Of3X+O9S4wLbMuMxWkDe40LosscxaiPrfm+d81fPAdXt7a2pBjWHVbS/+l6fk4Wl2yd522PwaZjMVez9q3KZrtyXoObq/ekDOygdU7+gL+qz+AiLDWw5h6kIaRIMd6xA2mMINpkELGsyQe1RCubKA7d7J5jnKd7sWkBSm3Y5KB8dOv9kCBjQb0hU733T7rvyfZoffY3RFja0rMIptn6ouLVzv/9uHWvCVOxkNv95Wu14tY+va26C5ypLUd/acfkSwcW3qmyyrofUOcA1RQ+seEDS7qIb29Re20AYvkpO6Tp2mTLG20KEBU3HNMqU+trFc05pjW23lmjKQc3HzxbGflX3jHOp2DanZQ7or1/SGXMFKdbbfK49NP2923VLcy71lrkX1yO076jpx3qawafu+jZblnViql9r2EDryA/kZ/dH37hcVNXacLgj4hzhuHDHU8C5rKbXiaAYA0P7hk5sB7TL/iLcUSN/zvzkTrvFUAcCvsWs/6r1wpnbvvwZbmvwvm//5infLOq33ajRVAFdF+GXK0Zj/E+Y3nCAoQl2vm9Tb2hcE0BmlDy9cohjTgB+uy+4Np3A1LgSIzBUBoxMCTpaPFLDlIDKoAxJZc1CU8ecbODRdND2AUosAYrWBMbsKnNVBCtgLIrcPEmtdUKTaXtGgMD15TQgzukGooUQchGnMJn7xN8ncYRIXesR/SlIdBHKYTn5SoGSIY3ohTyMTIAl7YOJ+5BxDTdhQlO1ylt1fAKTojXaRfWuitQRBGXIDghooIiwQztyZSWb834iUc1BS0VVm/UcSKb15QBxsgPyUhUZdl1LZFaSTQUYEIGwh8wCTFuKMGAO1eDeDRDI7uUPk7gWQU0lT2W56hb/PGwAU+hvrYsRJIJEk0pEM8TpVemk0hoxzTBIur0Sq5iBVPigpP+lK5xK1N7bAdcoxVDrUTnWjKEiPrRY=') format('woff2'),
+  url('//at.alicdn.com/t/font_889924_v8kg8xtspv.woff?t=1550461337444') format('woff'),
+  url('//at.alicdn.com/t/font_889924_v8kg8xtspv.ttf?t=1550461337444') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('//at.alicdn.com/t/font_889924_v8kg8xtspv.svg?t=1550461337444#iconfont') format('svg'); /* iOS 4.1- */
+}
 
-  .iconfont {
-    font-family:"iconfont" !important;
-    font-size:16px;
-    font-style:normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  .icon-tishi:before { content: "\e61f"; }
+.icon-tishi:before {
+  content: "\e61f";
+}
 
-  .icon-jiantouarrow511:before { content: "\e6b9"; }
+.icon-jiantouarrow511:before {
+  content: "\e6b9";
+}
 
-  .icon-yonghu:before { content: "\e639"; }
+.icon-yonghu:before {
+  content: "\e639";
+}
 
-  .icon-tishi2:before { content: "\e669"; }
+.icon-tishi2:before {
+  content: "\e669";
+}
 
-  .icon-xiugaimima:before { content: "\e633"; }
+.icon-xiugaimima:before {
+  content: "\e633";
+}
+
+.icon-duanxinyanzhengma:before {
+  content: "\e61b";
+}
 
 
 
+.qx-code-ico .icon-duanxinyanzhengma{ font-size: 21px; position: relative; top:3px;}
 
   .wthree-text li {
     height: 18px;
@@ -344,6 +390,44 @@
     flex-basis: 100%;
     -webkit-flex-basis: 100%;
     text-align: left;
+  }
+
+  .from-style-code {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .from-style-code input[type="text"]{
+    width: 50% !important;
+  }
+
+  .from-style-code input[type="button"]{
+    color: #fff;
+    background: #f7296f;
+    border: none;
+    padding: 13px 0;
+    outline: none;
+    width: 36%;
+    font-size: 15px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    transition: 0.5s all;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.49);
+    position: absolute;
+    right: 65px;
+  }
+
+  .from-style-code input[type="button"]:hover {
+    background: #000;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    transition: 0.5s all;
   }
 
   .center {
