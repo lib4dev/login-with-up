@@ -26,14 +26,14 @@
           <input :placeholder="conf.pwd || '请输入密码'" maxlength="32" v-model="login.password" type="password">
         </div>
 
-        <div class="form-style-agile qx-code-ico" v-if="havecode">
+        <div class="form-style-agile qx-code-ico" v-if="requireCode">
           <label>
             <i class="iconfont icon-duanxinyanzhengma"></i>
-            图形验证码
+            微信验证码
           </label>
           <div class="from-style-code">
-            <input :placeholder="conf.validateCode || '请输入图形验证码'" maxlength="10" v-model="login.validatecode" type="text">
-            <input type="button" class="submit" @click="getValidateCode" value="获取图形验证码">
+            <input :placeholder="conf.validateCode || '请输入微信验证码'" maxlength="10" v-model="login.validatecode" type="text">
+            <input type="button" class="submit" @click="getValidateCode" value="获取微信验证码">
           </div>
         </div>
         <!-- checkbox -->
@@ -75,10 +75,10 @@
       conf:{
         type:Object,
       },
-      havecode:{ //是否有图形验证码
+      requireCode:{ //是否有微信验证码
         type: Boolean,
         required: false
-      }
+      },
     },
     data() {
       return {
@@ -100,9 +100,9 @@
           return
         }
 
-        if(this.havecode){
+        if(this.requireCode){
           if(!this.login.validatecode){
-            this.message = "请填写图形验证码";
+            this.message = "请填写微信验证码";
             return
           }
         }
@@ -398,7 +398,7 @@
   }
 
   .from-style-code input[type="text"]{
-    width: 50% !important;
+    width: 60% !important;
   }
 
   .from-style-code input[type="button"]{
@@ -407,7 +407,7 @@
     border: none;
     padding: 13px 0;
     outline: none;
-    width: 36%;
+    width: 26%;
     font-size: 15px;
     cursor: pointer;
     letter-spacing: 2px;
