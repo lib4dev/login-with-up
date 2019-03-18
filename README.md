@@ -2,26 +2,23 @@
 
 > vue 用户登录组件
 
-## install
+## 1.install
 
 ``` bash
 npm i login-with-up --save
 
 ```
 
-## use
+## 2.use
 
 ```vue
 <template>
   <div id="app">
     <login-with-up
-      :copyright="copyright"
-      :systemName="systemName"
-      :conf="conf"
-      @loginCall="call"
-      ref="loginItem"
+      :call="call"
+      :err-msg.sync="errMsg"
+      :getCodeCall="getCodeCall"
     >
-
     </login-with-up>
   </div>
 </template>
@@ -32,9 +29,7 @@ npm i login-with-up --save
     name: 'app',
     data () {
       return {
-        systemName: "电子优惠券系统",
-        copyright:"四川千行你我科技有限公司Copyright© 2018 版权所有",
-        conf:{loginNameType:"请输入邮箱或用户名",pwd:"输入密码"},   //输入框提示信息配置
+        errMsg:{}
       }
     },
     components:{ //注册插件
@@ -45,12 +40,29 @@ npm i login-with-up --save
         //在这里获取数据进行登录
         console.log(e);
         //如果登陆失败，发送错误信息
-        this.$refs.loginItem.showMsg("登录中。。。。");
+        this.errMsg = {message:"登录中。。。。",timestamp:  Date.parse(new Date())};
+      },
+      getCodeCall(e){
+        this.errMsg = {message:"发送中。。。。",timestamp:  Date.parse(new Date())};
       }
     }
   }
 </script>
 ```
+
+### 3.Attributes
+
+| 参数            | 说明         | 类型 | 可选值  |    默认值    | 
+| ----------    | ------------ | :----: | :---: | :--------: | 
+| system-name   | 登录系统名称   | string  |  -   | 登录组件  | 
+| copyright     | 版权信息      | string   |  -   |  千行你我版权所有   | 
+| err-msg       | 错误提示信息  |   object  |  -   | {message:"",timestamp:""} | 
+| conf          | 输入框配置    |   object  |  -   | {loginNameType:"请输入邮箱或用户名",pwd:"输入密码", validateCode:"输入微信验证码"} | 
+| require-code  | 是否开启验证码 |   boolean |  -   |  false     | 
+| call          | 登录回调   | function(val) 用于登录 |       |    -     |
+| getCodeCall   | 获取验证码回调 | function(val) 用于获取验证码 |   |  -     |
+
+
 
 
 ![预览](https://raw.githubusercontent.com/micro-plat/login-with-up/dev/view.png)
