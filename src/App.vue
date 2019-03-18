@@ -1,15 +1,10 @@
 <template>
   <div id="app">
     <login-with-up
-      :copyright="copyright"
-      :systemName="systemName"
-      :conf="conf"
-      @loginCall="call"
-      ref="loginItem"
-      :requireCode="requireCode"
-      @getCodeCall="getCodeCall"
+      :call="call"
+      :err-msg.sync="errMsg"
+      :getCodeCall="getCodeCall"
     >
-
     </login-with-up>
   </div>
 </template>
@@ -20,10 +15,7 @@
     name: 'app',
     data () {
       return {
-        systemName: "电子优惠券系统",
-        copyright:"四川千行你我科技有限公司Copyright© 2018 版权所有",
-        conf:{loginNameType:"请输入邮箱或用户名",pwd:"输入密码", validateCode:"输入微信验证码"},   //输入框提示信息配置
-        requireCode: true,
+        errMsg:{}
       }
     },
     components:{ //注册插件
@@ -34,10 +26,10 @@
         //在这里获取数据进行登录
         console.log(e);
         //如果登陆失败，发送错误信息
-        this.$refs.loginItem.showMsg("登录中。。。。");
+        this.errMsg = {message:"登录中。。。。",timestamp:  Date.parse(new Date())};
       },
-      getCodeCall(){
-        this.$refs.loginItem.showMsg("发送中。。。。");
+      getCodeCall(e){
+        this.errMsg = {message:"发送中。。。。",timestamp:  Date.parse(new Date())};
       }
     }
   }

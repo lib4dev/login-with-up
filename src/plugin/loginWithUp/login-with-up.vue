@@ -66,19 +66,37 @@
     props: {
       systemName:  { //系统名称
         type:String,
-        required:true
+        default:"登录组件"
       },
       copyright:  {//版权信息
         type:String,
-        required:true
+        default:"千行你我版权所有"
+      },
+      errMsg:{
+        type:Object,
+        default: () => {
+            return {message:"",timestamp:""}
+        },
       },
       conf:{
         type:Object,
+        default:()=>{
+         return {loginNameType:"请输入邮箱或用户名",pwd:"输入密码", validateCode:"输入微信验证码"}
+        }
       },
       requireCode:{ //是否有微信验证码
         type: Boolean,
-        required: false
+        default:false,
       },
+      call:{     //登錄的回調
+        type:Function,
+
+      },
+      getCodeCall:{   //獲取驗證碼的回調
+        type:Function,
+        default:function () {
+        }
+      }
     },
     data() {
       return {
@@ -87,11 +105,17 @@
           password: "",
           validatecode: ""
         },
-        message:null,
+        message:this.errMsg.message
       };
     },
     mounted() {
       drawDynamicsBG("bg");
+    },
+    watch: {
+      errMsg(newValue, oldValue) {
+        console.log(newValue, oldValue);
+       this.message = newValue.message
+      },
     },
     methods: {
       loginNow() {
@@ -106,18 +130,14 @@
             return
           }
         }
-
-        this.$emit('loginCall', this.login);
+        this.call(this.login);
       },
       getValidateCode(){
         if(!this.login.username){
           this.message = "请填写用户名";
           return
         }
-        this.$emit('getCodeCall', this.login);
-      },
-      showMsg(e){
-          this.message = e
+        this.getCodeCall(this.login);
       }
     }
   };
