@@ -5,7 +5,7 @@
       <canvas></canvas>
       <canvas></canvas>
     </div>
-    <h1 class="visible-lg-block visible-md-block">{{systemName}}</h1>
+    <h1 class="visible-lg-block visible-md-block">{{systemName || systemNamec}}</h1>
     <div class="sub-main-w3">
       <form action="#" @submit.prevent="loginNow">
         <h2>用户登录
@@ -53,7 +53,7 @@
       </form>
     </div>
     <div class="footer">
-      <p>{{copyright}}</p>
+      <p>{{copyright || copyrightc}}</p>
     </div>
 
   </div>
@@ -66,11 +66,15 @@
     props: {
       systemName:  { //系统名称
         type:String,
-        default:"登录组件"
+        default:""
       },
       copyright:  {//版权信息
         type:String,
-        default:"千行你我版权所有"
+        default:""
+      },
+      sessionKey:{
+        type:String,
+        default:"systeminfo"
       },
       errMsg:{
         type:Object,
@@ -117,6 +121,16 @@
        this.message = newValue.message
       },
     },
+    computed:{
+      systemNamec(){
+        let info = JSON.parse(sessionStorage.getItem(this.sessionKey))
+        return info ?  info.name : ""
+      },
+      copyrightc(){
+        let info = JSON.parse(sessionStorage.getItem(this.sessionKey))
+        return info ?  info.copyright : ""
+      }
+    },
     methods: {
       loginNow() {
         if (!this.login.username || !this.login.password){
@@ -130,6 +144,7 @@
             return
           }
         }
+        this.message = "登录中...";
         this.call(this.login);
       },
       getValidateCode(){
@@ -138,6 +153,9 @@
           return
         }
         this.getCodeCall(this.login);
+      },
+      success(path){
+        window.location.href = path;
       }
     }
   };
