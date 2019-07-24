@@ -4,6 +4,7 @@
       :call="call"
       :err-msg.sync="errMsg"
       :getCodeCall="getCodeCall"
+      :wxlg="wxLogin"
       ref="LoginUp"
     >
     </login-with-up>
@@ -37,8 +38,12 @@
       },
       getCodeCall(e){
         this.errMsg = {message:"发送中。。。。",timestamp: Date.parse(new Date())};
+      },
+      wxLogin(){
+        window.location.href = "https://open.weixin.qq.com/connect/qrconnect?appid=wxbdc5610cc59c1631&redirect_uri=https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do&response_type=code&scope=snsapi_login&state=3c539cf7b387374580153e2fa1873f1c#wechat_redirect";
       }
     }
   }
 </script>
+
 

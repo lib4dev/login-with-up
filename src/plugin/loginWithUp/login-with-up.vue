@@ -33,7 +33,6 @@
           </label>
           <div class="from-style-code">
             <input :placeholder="conf.validateCode || '请输入微信验证码'" maxlength="10" v-model="login.validatecode" type="text">
-            <input type="button" class="submit" @click="getValidateCode" value="获取微信验证码">
           </div>
         </div>
         <!-- checkbox -->
@@ -50,6 +49,7 @@
           </ul>
         </div>
         <input type="submit" class="submit" value="立即登录">
+        <input type="button" class="wxlg" @click="wxjump" value="微信登录">
       </form>
     </div>
     <div class="footer">
@@ -100,6 +100,9 @@
         type:Function,
         default:function () {
         }
+      },
+      wxlg:{
+        type:Function
       }
     },
     data() {
@@ -156,6 +159,9 @@
       },
       success(path){
         window.location.href = path;
+      },
+      wxjump() {
+        this.wxlg();
       }
     }
   };
@@ -1108,7 +1114,26 @@
     }
   }
 
+  .wxlg {
+    margin-left : 30px;
+    color: #fff;
+    background: #f7296f;
+    border: none;
+    padding: 13px 0;
+    margin-top: 30px;
+    outline: none;
+    width: 36%;
+    font-size: 16px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,.49);
 
+    -webkit-appearance: push-button;
+    user-select: none;
+    white-space: pre;
+    align-items: flex-start;
+    text-align: center;
+  }
 
   /*--//responsive--*/
 </style>
