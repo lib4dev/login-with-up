@@ -33,6 +33,7 @@
           </label>
           <div class="from-style-code">
             <input :placeholder="conf.validateCode || '请输入微信验证码'" maxlength="10" v-model="login.validatecode" type="text">
+            <input type="button" class="submit" @click="getValidateCode" value="获取微信验证码">
           </div>
         </div>
         <!-- checkbox -->
@@ -49,7 +50,7 @@
           </ul>
         </div>
         <input type="submit" class="submit" value="立即登录">
-        <input type="button" class="wxlg" @click="wxjump" value="微信登录">
+        <input v-if="requireWxLogin" type="button" class="wxlg" @click="wxjump" value="微信登录">
       </form>
     </div>
     <div class="footer">
@@ -100,6 +101,10 @@
         type:Function,
         default:function () {
         }
+      },
+      requireWxLogin:{ //是否微信跳转登录
+        type: Boolean,
+        default:false,
       },
       wxlg:{
         type:Function
