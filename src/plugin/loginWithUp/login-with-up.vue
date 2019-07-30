@@ -1139,6 +1139,4 @@
     align-items: flex-start;
     text-align: center;
   }
-
-  /*--//responsive--*/
 </style>
