@@ -1,60 +1,73 @@
 <template>
   <div>
-    <div id="bg" style=" background:#2196f3">
+    <div id="bg" style=" background:#2196f3" v-if="!bgImageUrl">
       <canvas></canvas>
       <canvas></canvas>
       <canvas></canvas>
     </div>
-    <h1 class="visible-lg-block visible-md-block">{{systemName || systemNamec}}</h1>
+    <div id="bg" v-if="bgImageUrl">
+      <img style="width:100%;height:100%;" :src="bgImageUrl"/>
+    </div>
+    <h1 class="visible-lg-block visible-md-block">{{systemName}}</h1>
     <div class="sub-main-w3">
+
       <form action="#" @submit.prevent="loginNow">
-        <h2>用户登录
+        <h2>{{loginTitle}}
           <i class="iconfont icon-jiantouarrow511"></i>
         </h2>
-        <div class="form-style-agile">
-          <label>
-            <i class="iconfont icon-yonghu"></i>
-            用户名
-          </label>
-          <input :placeholder="conf.loginNameType || '请输入用户名'" maxlength="32" v-model="login.username" type="text">
-        </div>
-        <div class="form-style-agile">
-          <label>
-            <i class="iconfont icon-xiugaimima"></i>
-            密码
-          </label>
-          <input :placeholder="conf.pwd || '请输入密码'" maxlength="32" v-model="login.password" type="password">
-        </div>
 
-        <div class="form-style-agile qx-code-ico" v-if="requireCode">
-          <label>
-            <i class="iconfont icon-duanxinyanzhengma"></i>
-            微信验证码
-          </label>
-          <div class="from-style-code">
-            <input :placeholder="conf.validateCode || '请输入微信验证码'" maxlength="10" v-model="login.validatecode" type="text">
-            <input type="button" class="submit" @click="getValidateCode" value="获取微信验证码">
+        <div class="form-style-agile" style="margin-bottom:0px !important" v-if="!showCode">
+          <div class="form-style-agile">
+            <label v-show="requireLabel">
+              <i class="iconfont icon-yonghu"></i>
+              {{loginNameLabel}}
+            </label>
+            <input :placeholder="loginNameHolder" maxlength="32" v-model="login.username" type="text">
+          </div>
+          <div class="form-style-agile">
+            <label v-show="requireLabel">
+              <i class="iconfont icon-xiugaimima"></i>
+              {{loginPwdLabel}}
+            </label>
+            <input :placeholder="loginPwdHolder" maxlength="32" v-model="login.password" type="password">
+          </div>
+
+          <div class="form-style-agile qx-code-ico" v-if="requireCode">
+            <label v-show="requireLabel">
+              <i class="iconfont icon-duanxinyanzhengma"></i>
+              {{codeLabel}}
+            </label>
+            <div class="from-style-code">
+              <input :placeholder="codeHolder" maxlength="10" v-model="login.wxcode" type="text">
+              <input type="button" class="submit" @click="getValidateCode" :value="sendBtnText">
+            </div>
           </div>
         </div>
+
+        <div class="form-style-agile" v-if="showCode">
+          <img class="wechat-code" id="wechat-code" :src="imageUrl" />
+        </div>
         <!-- checkbox -->
-        <div class="wthree-text" >
+        <div class="wthree-text" v-if="!showCode">
           <ul>
             <li>
-              <label v-if="message">
+              <span v-if="message　&& message == '请输入用户名和密码.'" style="visibility:hidden;">{{message}}</span>
+              <label v-if="message　&& message != '请输入用户名和密码.'">
               <span class="">
                 <i class="iconfont icon-tishi" style="font-size: 14px;"></i>
-              {{message}}
+                {{message}}
               </span>
               </label>
             </li>
           </ul>
         </div>
-        <input type="submit" class="submit" value="立即登录">
+        <input v-if="!showCode" type="submit" class="submit" value="立即登录">
         <input v-if="requireWxLogin" type="button" class="wxlg" @click="wxjump" value="微信登录">
+        <input v-if="requireWxLogin && showCode" type="button" class="wxlg" @click="pwdLogin" value="密码登录">
       </form>
     </div>
     <div class="footer">
-      <p>{{copyright || copyrightc}}</p>
+      <p>{{copyright}}</p>
     </div>
 
   </div>
@@ -65,42 +78,66 @@
   export default {
     name: "loginWithUp",
     props: {
-      systemName:  { //系统名称
+      bgImageUrl:{　//背景图片地址
         type:String,
         default:""
+      },
+      systemName:  { //系统名称
+        type:String,
+        default:"后台运营管理系统"
       },
       copyright:  {//版权信息
         type:String,
         default:""
       },
-      sessionKey:{
+      loginTitle:{　//登录标题
         type:String,
-        default:"systeminfo"
+        default: "用户登录"
       },
-      errMsg:{
-        type:Object,
-        default: () => {
-            return {message:"",timestamp:""}
-        },
+      loginNameLabel:{　//登录用户名标签
+        type:String,
+        default: "用户名"
       },
-      conf:{
-        type:Object,
-        default:()=>{
-         return {loginNameType:"请输入邮箱或用户名",pwd:"输入密码", validateCode:"输入微信验证码"}
-        }
+      loginNameHolder:{　//用户名输入框提示
+        type:String,
+        default:"请输入邮箱或用户名"
+      },
+      loginPwdLabel:{　//密码框标签　
+        type:String,
+        default:"密码"
+      },
+      loginPwdHolder:{　//密码输入框提示
+        type:String,
+        default:"请输入密码"
+      },
+      codeLabel:{　//微信验证码标签
+        type:String,
+        default:"验证码"
+      },
+      codeHolder:{　//微信验证码提示
+        type:String,
+        default:"请输入验证码"
       },
       requireCode:{ //是否有微信验证码
         type: Boolean,
         default:false,
       },
-      call:{     //登錄的回調
+      requireLabel:{ //是否有微信验证码
+        type: Boolean,
+        default:true,
+      },
+      loginCallBack:{     //登錄的回調
         type:Function,
 
       },
-      getCodeCall:{   //獲取驗證碼的回調
+      sendCode:{   //獲取驗證碼的回調
         type:Function,
         default:function () {
         }
+      },
+      sendBtnLabel:{　//获取验证码按钮文字
+        type:String,
+        default:"获取验证码"
       },
       requireWxLogin:{ //是否微信跳转登录
         type: Boolean,
@@ -115,29 +152,29 @@
         login: {
           username: "",
           password: "",
-          validatecode: ""
+          wxcode: ""
         },
-        message:this.errMsg.message
+        message:"请输入用户名和密码.",
+        sendBtnText: this.sendBtnLabel,
+        totalTime: 60,
+        canClick: true, //添加canClick
+        clock: {},
+        showCode: false,
+        showLogin: true,
+        imageUrl: "http://sso.sinopecscsy.com/static/img/43612a9fe1f92658cc3bc6e3edc0766e.png"
       };
     },
     mounted() {
+      if(this.bgImageUrl){
+        return
+      }
       drawDynamicsBG("bg");
     },
     watch: {
-      errMsg(newValue, oldValue) {
-        console.log(newValue, oldValue);
-       this.message = newValue.message
-      },
+     
     },
     computed:{
-      systemNamec(){
-        let info = JSON.parse(sessionStorage.getItem(this.sessionKey))
-        return info ?  info.name : ""
-      },
-      copyrightc(){
-        let info = JSON.parse(sessionStorage.getItem(this.sessionKey))
-        return info ?  info.copyright : ""
-      }
+      
     },
     methods: {
       loginNow() {
@@ -147,27 +184,53 @@
         }
 
         if(this.requireCode){
-          if(!this.login.validatecode){
+          if(!this.login.wxcode){
             this.message = "请填写微信验证码";
             return
           }
         }
         this.message = "登录中...";
-        this.call(this.login);
+        this.loginCallBack(this.login);
       },
       getValidateCode(){
         if(!this.login.username){
           this.message = "请填写用户名";
           return
         }
-        this.getCodeCall(this.login);
+        if(!this.canClick){
+          return
+        }
+        this.sendCode(this.login);
       },
       success(path){
         window.location.href = path;
       },
       wxjump() {
-        this.wxlg();
-      }
+        // this.wxlg();
+        this.showCode = true
+      },
+      pwdLogin(){
+        this.showCode = false
+      },
+      showError(msg){
+        this.message = msg
+      },
+      countDown(btnText) {
+          if (!this.canClick) return
+          this.canClick = false
+          this.sendBtnText = this.totalTime + 's后重新获取'
+          this.clock = window.setInterval(() => {
+              this.totalTime--
+              this.sendBtnText = this.totalTime + 's后重新获取'
+              if (this.totalTime < 0) {
+                  window.clearInterval(this.clock)
+                  this.sendBtnText = btnText
+                  this.message = '请输入用户名和密码.'
+                  this.totalTime = 60
+                  this.canClick = true //这里重新开启
+              }
+          }, 1000)
+      },
     }
   };
 </script>
@@ -214,7 +277,6 @@
 .icon-duanxinyanzhengma:before {
   content: "\e61b";
 }
-
 
 
 .qx-code-ico .icon-duanxinyanzhengma{ font-size: 21px; position: relative; top:3px;}
@@ -403,6 +465,12 @@
   /*--//header--*/
 
   /*-- content --*/
+  .wechat-code{
+    width: 230px;
+    height: 230px;
+    margin-top: 20px;
+    margin-left: 124px;
+  }
 
   .sub-main-w3 {
     display: -webkit-flex;
@@ -512,7 +580,7 @@
     padding: 15px 15px;
     box-sizing: border-box;
     border: none;
-    border: 1px solid #000;
+    border: 1px solid #b4b4b4;
     background: #fff;
   }
 
@@ -644,7 +712,7 @@
     50% {
       border-left-color: #fff;
     }
-
+  }
   .clear {
     clear: both;
   }
@@ -745,7 +813,7 @@
     padding: 15px 15px;
     box-sizing: border-box;
     border: none;
-    border: 1px solid #000;
+    border: 1px solid #b4b4b4;
     background: #fff;
   }
 
@@ -891,6 +959,13 @@
     width: 100%;
     height: 100%;
   }
+  #bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 
   @media (max-width: 1920px) {
     h1 {
@@ -961,8 +1036,6 @@
     .sub-main-w3 form {
       padding: 25px 14px;
     }
-  }
-
   }
 
   /*-- //checkbox --*/

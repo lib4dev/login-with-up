@@ -11,7 +11,7 @@ npm i login-with-up --save
 
 ## 2.use
 
-```vue
+``` js
 <template>
   <div id="app">
     <login-with-up
