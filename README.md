@@ -90,13 +90,13 @@ npm install login-with-up --save
       :systemName="systemName"
       :copyright="copyright"
       :loginTitle="loginTitle"
-      :loginNameLabel:"loginNameLabel",
-      :loginNameHolder:"loginNameHolder",
-      :loginPwdLabel:"loginPwdLabel",
-      :loginPwdHolder:"loginPwdHolder",
-      :codeLabel:"codeLabel",
-      :codeHolder:"codeHolder",
-      :sendBtnLabel:"sendBtnLabel"
+      :loginNameLabel="loginNameLabel",
+      :loginNameHolder="loginNameHolder",
+      :loginPwdLabel="loginPwdLabel",
+      :loginPwdHolder="loginPwdHolder",
+      :codeLabel="codeLabel",
+      :codeHolder="codeHolder",
+      :sendBtnLabel="sendBtnLabel"
       :requireCode="true"
       :requireLabel="false"
       :sendCode="sendCode"
