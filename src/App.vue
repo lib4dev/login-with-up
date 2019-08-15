@@ -3,15 +3,16 @@
     <login-with-up
       ref="LoginUp"
       :loginCallBack="call"
-      :requireLabel="true"
-      :requireCode="true" 
-      :bgImageUrl="bgImageUrl"
-      :systemName="systemName"
+      :requireCode="true"
       :loginNameLabel="loginNameLabel"
+      :loginNameHolder="loginNameHolder"
       :loginPwdLabel="loginPwdLabel"
+      :loginPwdHolder="loginPwdHolder"
       :sendBtnLabel="sendBtnLabel"
       :codeLabel="codeLabel"
+      :codeHolder="codeHolder"
       :sendCode="sendWXCode"
+      :copyright="copyright"
     >
     </login-with-up>
   </div>
@@ -25,24 +26,25 @@
       return {
         bgImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565240473656&di=d7802b33660d2ae5326216421348b0e5&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F5366d0160924ab18014cefd83bfae6cd7a890b82.jpg",
         systemName:"能源业务中心运营管理系统",
-        copyright:"版权",
-        loginTitle:"用户登录",
-        loginNameLabel:"用户名",
-        loginNameHolder:"请输入用户名",
-        loginPwdLabel:"密码",
-        loginPwdHolder:"请输入用户密码",
+        copyright:"版权信息555",
+        loginTitle:"管理员登录",
+        loginNameLabel:"管理员用户名",
+        loginNameHolder:"请输入管理员用户名",
+        loginPwdLabel:"管理员密码",
+        loginPwdHolder:"请输入管理员用户密码",
         codeLabel:"微信验证码",
-        codeHolder:"请输入验证码",
-        sendBtnLabel:"获取微信验证码"
+        codeHolder:"请输入微信验证码",
+        sendBtnLabel:"获取微信验证码",
       }
     },
     components:{ //注册插件
       loginWithUp
     },
     created(){
-      //       :requireLabel="true"
-      // :requireCode="true"
-
+      // :requireLabel="true"
+      // :requireCode="true" 
+      // :bgImageUrl="bgImageUrl"
+      // :systemName="systemName"
       // :loginNameLabel="loginNameLabel"
       // :loginPwdLabel="loginPwdLabel"
       // :sendBtnLabel="sendBtnLabel"

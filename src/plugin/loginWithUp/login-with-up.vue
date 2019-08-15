@@ -16,7 +16,7 @@
           <i class="iconfont icon-jiantouarrow511"></i>
         </h2>
 
-        <div class="form-style-agile" style="margin-bottom:0px !important" v-if="!showCode">
+        <div class="form-style-agile" style="margin-bottom:0px !important">
           <div class="form-style-agile">
             <label v-show="requireLabel">
               <i class="iconfont icon-yonghu"></i>
@@ -44,11 +44,8 @@
           </div>
         </div>
 
-        <div class="form-style-agile" v-if="showCode">
-          <img class="wechat-code" id="wechat-code" :src="imageUrl" />
-        </div>
         <!-- checkbox -->
-        <div class="wthree-text" v-if="!showCode">
+        <div class="wthree-text">
           <ul>
             <li>
               <span v-if="message　&& message == '请输入用户名和密码.'" style="visibility:hidden;">{{message}}</span>
@@ -61,9 +58,7 @@
             </li>
           </ul>
         </div>
-        <input v-if="!showCode" type="submit" class="submit" value="立即登录">
-        <input v-if="requireWxLogin" type="button" class="wxlg" @click="wxjump" value="微信登录">
-        <input v-if="requireWxLogin && showCode" type="button" class="wxlg" @click="pwdLogin" value="密码登录">
+        <input type="submit" class="submit" value="立即登录">
       </form>
     </div>
     <div class="footer">
@@ -100,7 +95,7 @@
       },
       loginNameHolder:{　//用户名输入框提示
         type:String,
-        default:"请输入邮箱或用户名"
+        default:"请输入邮箱、手机号或用户名"
       },
       loginPwdLabel:{　//密码框标签　
         type:String,
@@ -128,7 +123,6 @@
       },
       loginCallBack:{     //登錄的回調
         type:Function,
-
       },
       sendCode:{   //獲取驗證碼的回調
         type:Function,
@@ -139,13 +133,6 @@
         type:String,
         default:"获取验证码"
       },
-      requireWxLogin:{ //是否微信跳转登录
-        type: Boolean,
-        default:false,
-      },
-      wxlg:{
-        type:Function
-      }
     },
     data() {
       return {
@@ -159,9 +146,6 @@
         totalTime: 60,
         canClick: true, //添加canClick
         clock: {},
-        showCode: false,
-        showLogin: true,
-        imageUrl: "http://sso.sinopecscsy.com/static/img/43612a9fe1f92658cc3bc6e3edc0766e.png"
       };
     },
     mounted() {
@@ -204,13 +188,6 @@
       },
       success(path){
         window.location.href = path;
-      },
-      wxjump() {
-        // this.wxlg();
-        this.showCode = true
-      },
-      pwdLogin(){
-        this.showCode = false
       },
       showError(msg){
         this.message = msg
