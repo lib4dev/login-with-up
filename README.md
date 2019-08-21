@@ -85,7 +85,7 @@ this.$refs.LoginUp.showError("登录失败")
 
 | 参数           | 类型 | 可选值  |    默认值    | 　说明         | 
 | :----------:   | :------------: |  :----:   | :---: | :--------: | 
-| loginCallBack  | function |  必  |           | 登录按钮回调  |
+| loginCallBack  | function |  必  |     无    | 登录按钮回调  |
 | bgImageUrl     | string   |  可  | 系统背景    | 登录背景图　| 
 | systemName     | string   |  可  | 后台运营管理系统 | 系统名称     | 
 | copyright      | string   |  可  | 不传则不显示   | 版权信息　　  | 
@@ -99,7 +99,7 @@ this.$refs.LoginUp.showError("登录失败")
 | sendBtnLabel   | string   |  可  | 默认"获取验证码"   | 获取验证码按钮文字 |
 | requireCode    | boolean  |  可  | 默认 - false      | 是否需要显示验证码验证 |
 | requireLabel   | boolean  |  可  | 默认 - true       | 是否需要显示标签  |
-| sendCode       | function |  可  |                  | 发送验证码回调  |
+| sendCode       | function |  可  |       无          | 发送验证码回调  |
 
 在vue中的`template`标签中加入引用的组件`login-with-up`及实现登录的回调方法loginCallBack及自定义各个元素数据及可实现相应效果
 
