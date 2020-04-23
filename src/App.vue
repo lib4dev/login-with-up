@@ -58,7 +58,7 @@
         codeHolder:"请输入微信验证码",
         sendBtnLabel:"获取短信验证码",
         loginNameValue: "13125896369",
-        loginPwdValue: "132dasdasdasd",
+        loginPwdValue: "",
 
         subMainW3:　"justify-content: flex-end;",   //外层样式
         subMainW3Form:"margin: 0 50px;background: #dcdcdc;border-radius: 10px;border-bottom: 0px;width:28%;",　//form样式
@@ -79,6 +79,7 @@
     },
     created(){
       this.bgImageUrl = headImg
+      this.$refs.LoginUp.setLoginAccount("4567")
     },
     methods:{
       login(e){
@@ -96,6 +97,7 @@
       },
       forgetPwd(){
         alert("点击了忘记密码")
+        this.$refs.LoginUp.setLoginAccount("4567")
       },
       register(){
         alert("点击了注册")

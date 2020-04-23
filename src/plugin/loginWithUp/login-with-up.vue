@@ -278,6 +278,9 @@
       showError(msg){
         this.message = msg
       },
+      setLoginAccount(account){
+        this.login.username = account
+      },
       countDown() {
           if (!this.canClick) return
           this.canClick = false
