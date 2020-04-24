@@ -47,8 +47,8 @@
           </div>
 
           <div class="pwd-oper" v-bind:style="subMainW3Pwd">
-            <div @click="gotoPwd">{{forgetPwd}}</div>
-            <div @click="gotoRegister">{{userRegister}}</div>
+            <div class="pwd-oper-item" @click="gotoPwd">{{forgetPwd}}</div>
+            <div class="pwd-oper-item" @click="gotoRegister">{{userRegister}}</div>
           </div>
 
           <!-- checkbox -->
@@ -1028,6 +1028,9 @@
     justify-content: space-between;
     width: 100%;
     margin-bottom: 20px;
+  }
+  .pwd-oper-item:hover{
+    cursor:pointer;
   }
 
   #bg {
