@@ -5,6 +5,7 @@
       :loginCallBack="login"
       :systemName="systemName"
       :requireCode="false" 
+      :requireOper="true"
       :loginTitle="loginTitle"
       :loginNameLabel="loginNameLabel"
       :loginNameHolder="loginNameHolder"
@@ -15,21 +16,7 @@
       :sendBtnLabel="sendBtnLabel"
       :sendCode="sendCode"
       :bgImageUrl="bgImageUrl"
-      :loginNameValue="loginNameValue"
-      :loginPwdValue="loginPwdValue"
-
-      :subMainW3="subMainW3"
-      :subMainW3Form="subMainW3Form"
-      :subMainW3Title="subMainW3Title"
-      :subMainW3TitleIcon="subMainW3TitleIcon"
-      :subMainW3Label="subMainW3Label"
-      :subMainW3LabelIcon="subMainW3LabelIcon"
-      :subMainW3LabelInput="subMainW3LabelInput"
-      :subMainW3Tips="subMainW3Tips"
-      :subMainW3TipsIcon="subMainW3TipsIcon"
-      :subMainW3Submit="subMainW3Submit"
-      :subMainW3Pwd="subMainW3Pwd"
-      :subMainW3Footer="subMainW3Footer"
+      :copyright="copyright"
 
       :forgetPwdCallBack="forgetPwd"
       :registerCallBack="register"
@@ -41,12 +28,12 @@
 <script>
   import loginWithUp from '../src/plugin/loginWithUp/login-with-up'; // 引入
 
-  import headImg from './assets/back-bg.jpg'
+  import headImg from './assets/1.png'
   export default {
     name: 'app',
     data () {
       return { //https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565240473656&di=d7802b33660d2ae5326216421348b0e5&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F5366d0160924ab18014cefd83bfae6cd7a890b82.jpg
-        bgImageUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565240473656&di=d7802b33660d2ae5326216421348b0e5&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F5366d0160924ab18014cefd83bfae6cd7a890b82.jpg",
+        bgImageUrl: "",
         systemName:"", //能源业务中心运营管理系统
         copyright:"版权信息555",
         loginTitle:"加油卡回收商户系统",
@@ -57,21 +44,6 @@
         codeLabel:"微信验证码",
         codeHolder:"请输入微信验证码",
         sendBtnLabel:"获取短信验证码",
-        loginNameValue: "13125896369",
-        loginPwdValue: "",
-
-        subMainW3:　"justify-content: flex-end;",   //外层样式
-        subMainW3Form:"margin: 0 50px;background: #dcdcdc;border-radius: 10px;border-bottom: 0px;width:28%;",　//form样式
-        subMainW3Title:"font-size: 30px:color: blue;font-weight: bold;",
-        subMainW3TitleIcon:"display: none;",
-        subMainW3Label:"color: #ff3333;",
-        subMainW3LabelIcon:"color: blue;",
-        subMainW3LabelInput:"border: 1px #ff3434 solid;",
-        subMainW3Tips:"color: blue;",
-        subMainW3TipsIcon:"color: red;",
-        subMainW3Submit:"width: 71%;border-radius: 10px;background: #26d8a4;",
-        subMainW3Pwd:"font-size: 14px;color: #ff3234;",
-        subMainW3Footer:""
       }
     },
     components:{ //注册插件
@@ -79,7 +51,6 @@
     },
     created(){
       this.bgImageUrl = headImg
-      this.$refs.LoginUp.setLoginAccount("4567")
     },
     methods:{
       login(e){
@@ -105,14 +76,3 @@
     }
   }
 </script>
-
-<style scoped>
-.login-border{
-  background: red;
-  visibility: hidden;
-  display: flex;
-  justify-content: space-between;
-}
-</style>
-
-

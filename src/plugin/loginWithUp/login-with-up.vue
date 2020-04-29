@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div id="bg" style=" background:#2196f3" v-if="!bgImageUrl">
+  <div class="login-with-up">
+    <div id="bg" style=" background:#2196f3" v-if="!bgImageUrl"  >
       <canvas></canvas>
       <canvas></canvas>
       <canvas></canvas>
@@ -9,46 +9,46 @@
       <img style="width:100%;height:100%;" :src="bgImageUrl"/>
     </div>
     <div>
-      <h1 class="visible-lg-block visible-md-block" v-if="systemName">{{systemName}}</h1>
-      <h1 class="visible-lg-block visible-md-block" style="visibility: hidden;" v-if="!systemName">{{defaultSystemName}}</h1>
-      <div class="sub-main-w3"　v-bind:style="subMainW3"> <!-- class="sub-main-w3"-->
+      <h1 class="visible-lg-block visible-md-block sub-main-w3-sysname" v-if="systemName">{{systemName}}</h1>
+      <h1 class="visible-lg-block visible-md-block sub-main-w3-sysname" style="visibility: hidden;" v-if="!systemName">{{defaultSystemName}}</h1>
+      <div class="sub-main-w3">
 
-        <form action="#" @submit.prevent="loginNow" v-bind:style="subMainW3Form">
-          <h2 v-bind:style="subMainW3Title">{{loginTitle}}
-            <i class="iconfont icon-jiantouarrow511" v-bind:style="subMainW3TitleIcon"></i>
+        <form action="#" @submit.prevent="loginNow" class="sub-main-w3-form">
+          <h2 class="sub-main-w3-title">{{loginTitle}}
+            <i class="sub-main-w3-title-icon iconfont icon-jiantouarrow511"></i>
           </h2>
 
           <div class="form-style-agile" style="margin-bottom:0px !important">
             <div class="form-style-agile">
-              <label v-show="requireLabel" v-bind:style="subMainW3Label">
-                <i class="iconfont icon-yonghu" v-bind:style="subMainW3LabelIcon"></i>
+              <label v-show="requireLabel" class="sub-main-w3-label">
+                <i class="sub-main-w3-label-icon iconfont icon-yonghu"></i>
                 {{loginNameLabel}}
               </label>
-              <input :placeholder="loginNameHolder" maxlength="32" v-model="login.username" type="text" v-bind:style="subMainW3LabelInput">
+              <input :placeholder="loginNameHolder" maxlength="32" v-model="login.username" type="text" class="sub-main-w3-label-input">
             </div>
             <div class="form-style-agile">
-              <label v-show="requireLabel" v-bind:style="subMainW3Label">
-                <i class="iconfont icon-xiugaimima" v-bind:style="subMainW3LabelIcon"></i>
+              <label v-show="requireLabel" class="sub-main-w3-label">
+                <i class="sub-main-w3-label-icon iconfont icon-xiugaimima"></i>
                 {{loginPwdLabel}}
               </label>
-              <input :placeholder="loginPwdHolder" maxlength="32" v-model="login.password" type="password" v-bind:style="subMainW3LabelInput">
+              <input :placeholder="loginPwdHolder" maxlength="32" v-model="login.password" type="password" class="sub-main-w3-label-input">
             </div>
 
             <div class="form-style-agile qx-code-ico" v-if="requireCode">
-              <label v-show="requireLabel" v-bind:style="subMainW3Label">
-                <i class="iconfont icon-duanxinyanzhengma" v-bind:style="subMainW3LabelIcon"></i>
+              <label v-show="requireLabel" class="sub-main-w3-label">
+                <i class="sub-main-w3-label-icon iconfont icon-duanxinyanzhengma"></i>
                 {{codeLabel}}
               </label>
               <div class="from-style-code">
-                <input :placeholder="codeHolder" maxlength="10" v-model="login.wxcode" type="text">
-                <input type="button" class="submit" @click="getValidateCode" :value="sendBtnText">
+                <input :placeholder="codeHolder" maxlength="10" v-model="login.wxcode" type="text" class="sub-main-w3-label-code-input">
+                <input type="button" class="submit sub-main-w3-code-submit" @click="getValidateCode" :value="sendBtnText">
               </div>
             </div>
           </div>
 
-          <div class="pwd-oper" v-bind:style="subMainW3Pwd">
-            <div class="pwd-oper-item" @click="gotoPwd">{{forgetPwd}}</div>
-            <div class="pwd-oper-item" @click="gotoRegister">{{userRegister}}</div>
+          <div class="pwd-oper sub-main-w3-oper" v-if="requireOper">
+            <div class="pwd-oper-item sub-main-w3-oper-left" @click="gotoPwd">{{forgetPwd}}</div>
+            <div class="pwd-oper-item sub-main-w3-oper-right" @click="gotoRegister">{{userRegister}}</div>
           </div>
 
           <!-- checkbox -->
@@ -57,18 +57,18 @@
               <li>
                 <span v-if="message　&& message == '请输入用户名和密码.'" style="visibility:hidden;">{{message}}</span>
                 <label v-if="message　&& message != '请输入用户名和密码.'">
-                <span class="" v-bind:style="subMainW3Tips">
-                  <i class="iconfont icon-tishi" style="font-size: 14px;" v-bind:style="subMainW3TipsIcon"></i>
+                <span class="sub-main-w3-tips">
+                  <i class="sub-main-w3-tips-icon iconfont icon-tishi" style="font-size: 14px;"></i>
                   {{message}}
                 </span>
                 </label>
               </li>
             </ul>
           </div>
-          <input type="submit" class="submit" value="立即登录" v-bind:style="subMainW3Submit">
+          <input type="submit" class="submit sub-main-w3-submit" value="立即登录">
         </form>
       </div>
-      <div class="footer" v-bind:style="subMainW3Footer">
+      <div class="footer sub-main-w3-footer">
         <p>{{copyright}}</p>
       </div>
     </div>
@@ -140,17 +140,9 @@
         type:String,
         default:"获取验证码"
       },
-      isDefaultLogin:{ //是否采用默认登录页面
+      requireOper:{ //是否采用默认登录页面
         type: Boolean,
         default: true,
-      },
-      loginNameValue:{　//登录账号　
-        type:String,
-        default:""
-      },
-      loginPwdValue:{　//登录密码　
-        type:String,
-        default:""
       },
 
       forgetPwd:{
@@ -160,55 +152,6 @@
       userRegister:{
         type:String,
         default: "注册账号"
-      },
-
-      subMainW3:{
-        type:String,
-        default: "",
-      },
-      subMainW3Form:{
-        type:String,
-        default: "",
-      },
-      subMainW3Title:{
-        type:String,
-        default: "",
-      },
-      subMainW3TitleIcon:{
-        type:String,
-        default: ""
-      },
-      subMainW3Label:{
-        type:String,
-        default: ""
-      },
-      subMainW3LabelIcon:{
-        type:String,
-        default: ""
-      },
-      subMainW3LabelInput:{
-        type:String,
-        default: ""
-      },
-      subMainW3Tips:{
-        type:String,
-        default: ""
-      },
-      subMainW3TipsIcon:{
-        type:String,
-        default: ""
-      },
-      subMainW3Submit:{
-        type:String,
-        default: ""
-      },
-      subMainW3Footer:{
-        type:String,
-        default: ""
-      },
-      subMainW3Pwd:{
-        type:String,
-        default: ""
       },
       forgetPwdCallBack:{     //忘记密码的回調
         type:Function,
@@ -233,8 +176,6 @@
       };
     },
     mounted() {
-      this.login.username = this.loginNameValue
-      this.login.password = this.loginPwdValue
       if(this.bgImageUrl){
         return
       }
@@ -994,7 +935,7 @@
   }
 
   .footer {
-    margin: 4vw 0.3vw 2vw;
+    margin: 4vw 0.3vw 1.6vw;
   }
 
   .footer p {
@@ -1157,7 +1098,7 @@
   /*-- copyright --*/
 
   .footer {
-    margin: 4vw 0.3vw 2vw;
+    margin: 4vw 0.3vw 1.6vw;
   }
 
   .footer p {
