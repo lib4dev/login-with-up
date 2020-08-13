@@ -44,3 +44,22 @@
 .login-with-up .sub-main-w3-oper{
     font-size: 14px;color: #ff3234;
 }
+
+
+::-webkit-input-placeholder {
+    color: #999 !important;
+  }
+
+  :-moz-placeholder {
+    /* Firefox 18- */
+    color: #999 !important;
+  }
+
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #999 !important;
+  }
+
+  :-ms-input-placeholder {
+    color: #999 !important;
+  }

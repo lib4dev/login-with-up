@@ -17,9 +17,11 @@
       :sendCode="sendCode"
       :bgImageUrl="bgImageUrl"
       :copyright="copyright"
+      :copyrightcode="copyrightcode"
 
       :forgetPwdCallBack="forgetPwd"
       :registerCallBack="register"
+      :copyRightCallBack="copyRight"
     >
     </login-with-up>
   </div>
@@ -35,7 +37,8 @@
       return { //https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1565240473656&di=d7802b33660d2ae5326216421348b0e5&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F5366d0160924ab18014cefd83bfae6cd7a890b82.jpg
         bgImageUrl: "",
         systemName:"", //能源业务中心运营管理系统
-        copyright:"版权信息555",
+        copyright:"版权信息555 ",
+        copyrightcode: " 备案号1234564",
         loginTitle:"加油卡回收商户系统",
         loginNameLabel:"用户名",
         loginNameHolder:"请输入管理员用户名",
@@ -72,6 +75,11 @@
       },
       register(){
         alert("点击了注册")
+      },
+      copyRight(){
+        alert("点击了备案")
+        window.location.href="http://www.jb51.net";
+        // window.open("http://www.jb51.net");    
       }
     }
   }

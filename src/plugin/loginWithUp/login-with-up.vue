@@ -69,7 +69,7 @@
         </form>
       </div>
       <div class="footer sub-main-w3-footer">
-        <p>{{copyright}}</p>
+        <p>{{copyright}}  <a @click="gotoCopyRight"> {{copyrightcode}}</a></p>
       </div>
     </div>
   </div>
@@ -89,6 +89,10 @@
         default:"后台运营管理系统"
       },
       copyright:  {//版权信息
+        type:String,
+        default:""
+      },
+      copyrightcode: { //备案号
         type:String,
         default:""
       },
@@ -159,6 +163,9 @@
       registerCallBack:{     //忘记密码的回調
         type:Function,
       },
+      copyRightCallBack:{   //备案号的回调
+        type:Function,
+      }
     },
     data() {
       return {
@@ -251,6 +258,9 @@
       },
       gotoRegister(){
         this.registerCallBack()
+      },
+      gotoCopyRight(){
+        this.copyRightCallBack()
       }
     }
   };
@@ -962,6 +972,7 @@
     -moz-transition: 0.5s all;
     -ms-transition: 0.5s all;
     transition: 0.5s all;
+    cursor:pointer;
   }
   .pwd-oper{
     display: flex;
@@ -1125,6 +1136,7 @@
     -moz-transition: 0.5s all;
     -ms-transition: 0.5s all;
     transition: 0.5s all;
+    cursor:pointer;
   }
 
   /*-- //copyright --*/
