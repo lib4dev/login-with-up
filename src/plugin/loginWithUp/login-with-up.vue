@@ -69,7 +69,8 @@
         </form>
       </div>
       <div class="footer sub-main-w3-footer">
-        <p>{{copyright}}  <a @click="gotoCopyRight"> {{copyrightcode}}</a></p>
+        <p>{{copyright}}</p>
+        <p><a @click="gotoCopyRight">{{copyrightcode}}</a></p>
       </div>
     </div>
   </div>
@@ -953,7 +954,7 @@
     color: #fff;
     letter-spacing: 2px;
     text-align: center;
-    line-height: 1.8;
+    margin: 4px 0;
   }
 
   .footer p a {
@@ -1117,7 +1118,7 @@
     color: #fff;
     letter-spacing: 2px;
     text-align: center;
-    line-height: 1.8;
+    margin: 4px 0;
   }
 
   .footer p a {
