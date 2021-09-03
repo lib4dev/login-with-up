@@ -1,0 +1,65 @@
+.login-with-up .sub-main-w3-title{
+    font-size: 20px;
+    color: #ffffff;
+}
+.login-with-up .sub-main-w3{
+    justify-content: flex-end !important;
+}
+.login-with-up .sub-main-w3-form{
+    margin: 0 50px !important;
+    /* background: #dcdcdc !important; */
+    border-radius: 10px !important;
+    border-bottom: 0px !important;
+    width:28% !important;
+}
+.login-with-up .sub-main-w3-title-icon{
+    display: none;
+}
+.login-with-up .sub-main-w3-label{
+    color: #ff3333;
+}
+.login-with-up .sub-main-w3-label-icon{
+    color: blue;
+}
+.login-with-up .sub-main-w3-label-input{
+    border: 1px #ff3434 solid;
+}
+.login-with-up .sub-main-w3-tips{
+    color: blue !important;
+}
+.login-with-up .sub-main-w3-tips-icon{
+    color: red !important;
+}
+.login-with-up .sub-main-w3-submit{
+    width: 71% !important;
+    border-radius: 10px !important;
+    background: #26d8a4 !important;
+}
+.login-with-up .sub-main-w3-footer{
+    position: absolute !important;
+    width: 99% !important;
+    bottom: 20px !important;
+    margin: 0px !important;
+}
+.login-with-up .sub-main-w3-oper{
+    font-size: 14px;color: #ff3234;
+}
+
+
+::-webkit-input-placeholder {
+    color: #999 !important;
+  }
+
+  :-moz-placeholder {
+    /* Firefox 18- */
+    color: #999 !important;
+  }
+
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #999 !important;
+  }
+
+  :-ms-input-placeholder {
+    color: #999 !important;
+  }
