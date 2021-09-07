@@ -48,7 +48,7 @@
         codeLabel:"微信验证码",
         codeHolder:"请输入微信验证码",
         sendBtnLabel:"获取短信验证码",
-        justify:"start",
+        justify:"center",
       }
     },
     components:{ //注册插件
