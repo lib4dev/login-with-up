@@ -170,7 +170,7 @@ export default {
     },
     justify: { //系统名称
       type: String,
-      default: "center"
+      default: ""
     },
   },
   data() {
@@ -189,18 +189,20 @@ export default {
     };
   },
   mounted() {
-    switch (this.cssStyle) {
+    if (!this.bgImageUrl) {
+      drawDynamicsBG("bg");
+    }
+    switch (this.justify) {
       case "left":
         require("../../assets/comm.left.css")
+        return
       case "right":
         require("../../assets/comm.right.css")
+        return
       default:
         require("../../assets/comm.center.css")
+        return
     }
-    if (this.bgImageUrl) {
-      return
-    }
-    drawDynamicsBG("bg");
   },
   watch: {
 
@@ -532,7 +534,7 @@ h2 {
   -moz-box-pack: center;
   -ms-flex-pack: center;
   -webkit-justify-content: center;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .sub-main-w3 form {
@@ -806,7 +808,7 @@ h2 {
   -moz-box-pack: center;
   -ms-flex-pack: center;
   -webkit-justify-content: center;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .sub-main-w3 form {
