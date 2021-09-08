@@ -25,15 +25,15 @@
     border: 1px #ff3434 solid;
 }
 .login-with-up .sub-main-w3-tips{
-    color: blue !important;
+    color: #f7296f !important;
 }
 .login-with-up .sub-main-w3-tips-icon{
-    color: red !important;
+    color: #f7296f !important;
 }
 .login-with-up .sub-main-w3-submit{
     width: 71% !important;
     border-radius: 10px !important;
-    background: #26d8a4 !important;
+    background: #f7296f !important;
 }
 .login-with-up .sub-main-w3-footer{
     position: absolute !important;
